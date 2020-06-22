@@ -203,6 +203,12 @@ let dataSearch = {
 function showAutos(autos) {
   const container = document.querySelector('#resultado');
 
+  //clean previous results
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
+  }
+
+  //Build the html from autos
   autos.forEach((auto) => {
     const autoHTML = document.createElement('p');
     autoHTML.innerHTML = `
@@ -214,30 +220,47 @@ function showAutos(autos) {
 }
 
 function filterAuto() {
-  const result = getAutos().filter(filterBrand);
+  const result = getAutos().filter(filterBrand).filter(filterYear);
 
-  console.log(result);
+  if (result.length) {
+    showAutos(result);
+  } else {
+    alert('No hay resultados');
+  }
 }
 
 function filterBrand(auto) {
   if (dataSearch.marca) {
     return auto.marca === dataSearch.marca;
   } else {
+    return auto;
+  }
+}
+
+function filterYear(auto) {
+  if (dataSearch.year) {
+    return auto.year === dataSearch.year;
+  } else {
+    return auto;
   }
 }
 
 //Event Listener from DOM Loaded
 const autos = getAutos();
-
 document.addEventListener('DOMContentLoaded', () => {
   showAutos(autos);
 });
 
-//Event Listener from "marca" in form
+//Event Listeners form
 const brand = document.querySelector('#marca');
 brand.addEventListener('input', (e) => {
   dataSearch.marca = e.target.value;
-
   //filter autos
+  filterAuto();
+});
+
+const year = document.querySelector('#year');
+year.addEventListener('input', (e) => {
+  dataSearch.year = Number(e.target.value); //save the year as a number, not string
   filterAuto();
 });
