@@ -188,24 +188,52 @@ function getAutos() {
   ];
 }
 
-//eventlisteners
+//Globarl data for the search. This object will be updated in every applied filter
+let dataSearch = {
+  marca: '',
+  year: '',
+  min: '',
+  max: '',
+  puertas: '',
+  transmision: '',
+  color: '',
+};
 
-const autos = getAutos();
-
-document.addEventListener('DOMContentLoaded', () => {
-  showAutos(autos);
-});
-
-//this showautos in each applied filter
+//Shows the autos in each applied filter
 function showAutos(autos) {
   const container = document.querySelector('#resultado');
 
   autos.forEach((auto) => {
     const autoHTML = document.createElement('p');
     autoHTML.innerHTML = `
-    <p> ${auto.marca} ${auto.modelo} - ${auto.year} - ${auto.puertas} Puertas - Transmisión: ${auto.transmision} - Precio: ${auto.precio} - Color ${auto.color}</p>
-    
-    `;
+      <p> ${auto.marca} ${auto.modelo} - ${auto.year} - ${auto.puertas} Puertas - Transmisión: ${auto.transmision} - Precio: ${auto.precio} - Color ${auto.color}</p>
+      
+      `;
     container.appendChild(autoHTML);
   });
 }
+
+
+
+function filterAuto(){
+
+
+}
+
+
+
+//Event Listener from DOM Loaded
+const autos = getAutos();
+
+document.addEventListener('DOMContentLoaded', () => {
+  showAutos(autos);
+});
+
+//Event Listener from form
+const brand = document.querySelector('#marca');
+brand.addEventListener('input', (e) => {
+  dataSearch.marca = e.target.value;
+
+  //filter autos
+  filterAuto();
+});
