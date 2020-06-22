@@ -224,7 +224,9 @@ function filterAuto() {
     .filter(filterBrand)
     .filter(filterYear)
     .filter(filterMinimum)
-    .filter(filterMaximum);
+    .filter(filterMaximum)
+    .filter(filterDoors)
+    .filter(filterTransmision);
 
   if (result.length) {
     showAutos(result);
@@ -265,6 +267,22 @@ function filterMaximum(auto) {
   }
 }
 
+function filterDoors(auto) {
+  if (dataSearch.puertas) {
+    return auto.puertas === dataSearch.puertas;
+  } else {
+    return auto;
+  }
+}
+
+function filterTransmision(auto) {
+  if (dataSearch.transmision) {
+    return auto.transmision === dataSearch.transmision;
+  } else {
+    return auto;
+  }
+}
+
 //Event Listener from DOM Loaded
 const autos = getAutos();
 document.addEventListener('DOMContentLoaded', () => {
@@ -294,5 +312,17 @@ minimum.addEventListener('input', (e) => {
 const maximum = document.querySelector('#maximo');
 maximum.addEventListener('input', (e) => {
   dataSearch.maximum = Number(e.target.value);
+  filterAuto();
+});
+
+const doors = document.querySelector('#puertas');
+doors.addEventListener('input', (e) => {
+  dataSearch.puertas = Number(e.target.value);
+  filterAuto();
+});
+
+const transmision = document.querySelector('#transmision');
+transmision.addEventListener('input', (e) => {
+  dataSearch.transmision = e.target.value;
   filterAuto();
 });
