@@ -223,7 +223,8 @@ function filterAuto() {
   const result = getAutos()
     .filter(filterBrand)
     .filter(filterYear)
-    .filter(filterMinimum);
+    .filter(filterMinimum)
+    .filter(filterMaximum);
 
   if (result.length) {
     showAutos(result);
@@ -256,6 +257,14 @@ function filterMinimum(auto) {
   }
 }
 
+function filterMaximum(auto) {
+  if (dataSearch.maximum) {
+    return auto.precio <= dataSearch.maximum;
+  } else {
+    return auto;
+  }
+}
+
 //Event Listener from DOM Loaded
 const autos = getAutos();
 document.addEventListener('DOMContentLoaded', () => {
@@ -279,5 +288,11 @@ year.addEventListener('input', (e) => {
 const minimum = document.querySelector('#minimo');
 minimum.addEventListener('input', (e) => {
   dataSearch.minimum = Number(e.target.value);
+  filterAuto();
+});
+
+const maximum = document.querySelector('#maximo');
+maximum.addEventListener('input', (e) => {
+  dataSearch.maximum = Number(e.target.value);
   filterAuto();
 });
