@@ -192,8 +192,8 @@ function getAutos() {
 let dataSearch = {
   marca: '',
   year: '',
-  min: '',
-  max: '',
+  minimum: '',
+  maximum: '',
   puertas: '',
   transmision: '',
   color: '',
@@ -220,7 +220,10 @@ function showAutos(autos) {
 }
 
 function filterAuto() {
-  const result = getAutos().filter(filterBrand).filter(filterYear);
+  const result = getAutos()
+    .filter(filterBrand)
+    .filter(filterYear)
+    .filter(filterMinimum);
 
   if (result.length) {
     showAutos(result);
@@ -245,6 +248,14 @@ function filterYear(auto) {
   }
 }
 
+function filterMinimum(auto) {
+  if (dataSearch.minimum) {
+    return auto.precio >= dataSearch.minimum;
+  } else {
+    return auto;
+  }
+}
+
 //Event Listener from DOM Loaded
 const autos = getAutos();
 document.addEventListener('DOMContentLoaded', () => {
@@ -262,5 +273,11 @@ brand.addEventListener('input', (e) => {
 const year = document.querySelector('#year');
 year.addEventListener('input', (e) => {
   dataSearch.year = Number(e.target.value); //save the year as a number, not string
+  filterAuto();
+});
+
+const minimum = document.querySelector('#minimo');
+minimum.addEventListener('input', (e) => {
+  dataSearch.minimum = Number(e.target.value);
   filterAuto();
 });
