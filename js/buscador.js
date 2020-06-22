@@ -226,7 +226,8 @@ function filterAuto() {
     .filter(filterMinimum)
     .filter(filterMaximum)
     .filter(filterDoors)
-    .filter(filterTransmision);
+    .filter(filterTransmision)
+    .filter(filterColor);
 
   if (result.length) {
     showAutos(result);
@@ -283,6 +284,14 @@ function filterTransmision(auto) {
   }
 }
 
+function filterColor(auto) {
+  if (dataSearch.color) {
+    return auto.color === dataSearch.color;
+  } else {
+    return auto;
+  }
+}
+
 //Event Listener from DOM Loaded
 const autos = getAutos();
 document.addEventListener('DOMContentLoaded', () => {
@@ -324,5 +333,11 @@ doors.addEventListener('input', (e) => {
 const transmision = document.querySelector('#transmision');
 transmision.addEventListener('input', (e) => {
   dataSearch.transmision = e.target.value;
+  filterAuto();
+});
+
+const color = document.querySelector('#color');
+color.addEventListener('input', (e) => {
+  dataSearch.color = e.target.value;
   filterAuto();
 });
