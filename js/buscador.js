@@ -213,14 +213,18 @@ function showAutos(autos) {
   });
 }
 
+function filterAuto() {
+  const result = getAutos().filter(filterBrand);
 
-
-function filterAuto(){
-
-
+  console.log(result);
 }
 
-
+function filterBrand(auto) {
+  if (dataSearch.marca) {
+    return auto.marca === dataSearch.marca;
+  } else {
+  }
+}
 
 //Event Listener from DOM Loaded
 const autos = getAutos();
@@ -229,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
   showAutos(autos);
 });
 
-//Event Listener from form
+//Event Listener from "marca" in form
 const brand = document.querySelector('#marca');
 brand.addEventListener('input', (e) => {
   dataSearch.marca = e.target.value;
