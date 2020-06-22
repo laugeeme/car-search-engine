@@ -199,14 +199,19 @@ let dataSearch = {
   color: '',
 };
 
-//Shows the autos in each applied filter
-function showAutos(autos) {
+function cleanHtml() {
   const container = document.querySelector('#resultado');
-
   //clean previous results
   while (container.firstChild) {
     container.removeChild(container.firstChild);
   }
+}
+
+//Shows the autos in each applied filter
+function showAutos(autos) {
+  cleanHtml();
+
+  const container = document.querySelector('#resultado');
 
   //Build the html from autos
   autos.forEach((auto) => {
@@ -217,6 +222,14 @@ function showAutos(autos) {
       `;
     container.appendChild(autoHTML);
   });
+}
+
+function noResults() {
+  cleanHtml();
+  const noResult = document.createElement('div');
+  noResult.classList.add('alerta', 'error');
+  noResult.appendChild(document.createTextNode('No hay resultados'));
+  document.querySelector('#resultado').appendChild(noResult);
 }
 
 function filterAuto() {
@@ -232,7 +245,7 @@ function filterAuto() {
   if (result.length) {
     showAutos(result);
   } else {
-    alert('No hay resultados');
+    noResults();
   }
 }
 
